@@ -14,6 +14,8 @@ from selenium_utils import SeleniumDriver
 from job_parser import create_parser
 from utils import add_delay
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+
 
 logger = logging.getLogger(__name__)
 

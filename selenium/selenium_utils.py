@@ -10,6 +10,22 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.service import Service
+#-----------------
+#from selenium.webdriver.chrome.service import Service
+#from selenium.webdriver.chrome.options import Options
+#options = Options()
+#options.headless = True  # keep headless if you don’t want Chrome window
+#options.add_argument("--no-sandbox")
+#options.add_argument("--disable-dev-shm-usage")
+#service = Service(ChromeDriverManager().install())
+# Force 64-bit ChromeDriver and correct version
+#service = Service(
+#    ChromeDriverManager(version="146.0.7680.80").install()
+#)
+
+
+#driver = webdriver.Chrome(service=service, options=options)
+#-----------------
 
 logger = logging.getLogger(__name__)
 
