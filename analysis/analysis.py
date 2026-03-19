@@ -309,7 +309,7 @@ class JobAnalyzer:
         print("=" * 70)
         
         # Summary
-        print("\n📊 SUMMARY")
+        print("\n[SUMMARY]")
         print("-" * 70)
         summary = self.results['summary']
         print(f"Total Jobs:                  {summary['total_jobs']}")
@@ -317,43 +317,43 @@ class JobAnalyzer:
         print(f"Unique Locations:            {summary['total_locations']}")
         
         # Top Skills
-        print("\n🎯 TOP 10 REQUIRED SKILLS")
+        print("\n[TOP 10 REQUIRED SKILLS]")
         print("-" * 70)
         for i, skill_item in enumerate(self.results['top_skills'][:10], 1):
             print(f"{i:2}. {skill_item['skill']:30} {skill_item['count']:>3} jobs")
         
         # Top Locations
-        print("\n📍 TOP 10 JOB LOCATIONS")
+        print("\n[TOP 10 JOB LOCATIONS]")
         print("-" * 70)
         for i, loc_item in enumerate(self.results['top_locations'][:10], 1):
             print(f"{i:2}. {loc_item['location']:30} {loc_item['count']:>3} jobs")
         
         # Top Companies
-        print("\n🏢 TOP 10 HIRING COMPANIES")
+        print("\n[TOP 10 HIRING COMPANIES]")
         print("-" * 70)
         for i, comp_item in enumerate(self.results['top_companies'][:10], 1):
             print(f"{i:2}. {comp_item['company']:30} {comp_item['count']:>3} jobs")
         
         # Top Job Titles
-        print("\n💼 TOP 10 JOB TITLES")
+        print("\n[TOP 10 JOB TITLES]")
         print("-" * 70)
         for i, title_item in enumerate(self.results['top_job_titles'][:10], 1):
             print(f"{i:2}. {title_item['title']:30} {title_item['count']:>3} jobs")
         
         # Employment Types
-        print("\n📋 EMPLOYMENT TYPE DISTRIBUTION")
+        print("\n[EMPLOYMENT TYPE DISTRIBUTION]")
         print("-" * 70)
         for item in self.results['employment_type_distribution']:
             print(f"{item['type']:30} {item['count']:>3} jobs")
         
         # Entry-Level
-        print("\n👤 ENTRY-LEVEL OPPORTUNITIES")
+        print("\n[ENTRY-LEVEL OPPORTUNITIES]")
         print("-" * 70)
         entry = self.results['entry_level_count']
         print(f"Entry-level jobs:            {entry['entry_level_count']} ({entry['percentage']}%)")
         
         # Source Distribution
-        print("\n🌐 JOBS BY SOURCE")
+        print("\n[JOBS BY SOURCE]")
         print("-" * 70)
         for item in self.results['source_distribution']:
             print(f"{item['source']:30} {item['count']:>3} jobs")
