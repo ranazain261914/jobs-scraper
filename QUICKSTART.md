@@ -1,160 +1,127 @@
-# Quick Start Guide
+# 🚀 QUICKSTART GUIDE
 
-## One-Minute Setup
+## Installation
 
-### Prerequisites
-- Python 3.9+
-- Chrome or Firefox browser
-- ~2GB disk space
-
-### Installation
 ```powershell
-# Clone repository
-git clone https://github.com/YOUR-USERNAME/job-scraper.git
-cd job-scraper
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate
-
-# Install dependencies
+# Install required packages
 pip install -r requirements.txt
 ```
 
-### Run Everything
+## Running the Scrapers
+
+### Option 1: Get the Master Consolidated Data (Fastest)
 ```powershell
-python run_pipeline.py
+python consolidate_jobs.py
+```
+**Time:** <1 second  
+**Output:** 
+- `data/raw/all_job_links.csv` (104 job links)
+- `data/final/all_jobs.csv` (103 complete jobs)
+
+### Option 2: Scrape Individual Sources
+```powershell
+# Punjab Government Jobs (53 jobs, ~3 min)
+python scraper_punjab.py
+
+# Remote.com / Greenhouse Jobs (50 jobs, ~4 min)
+python scraper_greenhouse.py
+
+# Consolidate the results
+python consolidate_jobs.py
 ```
 
-That's it! The pipeline will:
-1. ✅ Extract job links from 3 websites (5-15 min)
-2. ✅ Extract job data from all links (1-2 hours)
-3. ✅ Clean and normalize data (<1 min)
-4. ✅ Generate analysis (<2 min)
-
-## Output Files
-
-After running, you'll have:
-- `data/raw/job_links.csv` - All extracted job links
-- `data/final/jobs.csv` - Raw job data
-- `data/final/jobs_cleaned.csv` - Cleaned, ready-to-use data
-- `analysis/analysis_results.json` - Market analysis
-
-## Run Individual Steps
-
+### Option 3: Full Automated Pipeline
 ```powershell
-# Extract links only
-cd selenium
-python extract_links.py
-
-# Extract job data only
-python extract_job_data.py
-
-# Clean data only
-cd ..
-python data_cleaning.py
-
-# Analyze data only
-cd analysis
-python analysis.py
+# Scrape all sources and consolidate (7-8 minutes total)
+python master_scraper.py
 ```
 
-## What Gets Scraped
+## Understanding the Output
 
-### Job Fields
-- Job Title
-- Company Name  
-- Location
-- Employment Type (Full-time, Part-time, Contract, etc.)
-- Job Description
-- Required Skills
-- Experience Level
-- And more...
+### Master Files (Use These!)
+- **`data/final/all_jobs.csv`** - 103 complete job records with all details
+- **`data/raw/all_job_links.csv`** - 104 job posting URLs
 
-### Websites
-1. **Greenhouse** - greenhouse.com/careers/opportunities
-2. **Ashby** - ashbyhq.com/careers
-3. **Punjab Jobs** - jobs.punjab.gov.pk/new_recruit/jobs
+### Data Fields in all_jobs.csv
+```
+job_title          - Position name
+company_name       - Company hiring
+location          - Job location
+job_description   - Full job description
+employment_type   - Full-time, Part-time, etc.
+posted_date       - Date posted
+source            - Data source (punjab/greenhouse)
+job_url           - Direct link to job
+extracted_at      - Extraction timestamp
+```
 
-## Key Files
+## Project Structure
 
-- `README.md` - Quick overview
-- `COMPLETE_GUIDE.md` - Full documentation
-- `PROJECT_COMPLETION_SUMMARY.md` - Project details
-- `selenium/` - Web scraping code
-- `analysis/` - Data analysis code
-- `data_cleaning.py` - Data cleaning
+```
+├── scraper_punjab.py          ✅ Working (53 jobs)
+├── scraper_greenhouse.py      ✅ Working (50 jobs)
+├── scraper_ashby.py           ⚠️  Framework (needs API work)
+├── consolidate_jobs.py        ✅ Main consolidation tool
+├── master_scraper.py          ✅ Full pipeline orchestrator
+│
+├── data/
+│   ├── raw/                   Raw job links (CSV files)
+│   └── final/                 Processed job data (CSV files)
+│
+├── QUICKSTART.md              This file
+├── PROJECT_DESCRIPTION.md     Complete technical documentation
+└── requirements.txt           Python dependencies
+```
+
+## Quick Examples
+
+### View extracted data
+```powershell
+# Open in Excel or Python
+Import-Csv 'data/final/all_jobs.csv' | Format-Table -AutoSize
+```
+
+### Count records
+```powershell
+@(Import-Csv 'data/final/all_jobs.csv').Count
+# Output: 103 jobs
+```
+
+### Get jobs by location
+```powershell
+Import-Csv 'data/final/all_jobs.csv' | Where-Object {$_.location -like "*Lahore*"}
+```
 
 ## Troubleshooting
 
-### Issue: "Module not found"
-```powershell
-pip install -r requirements.txt
-```
-
-### Issue: "No links extracted"
+**Q: No jobs extracted?**
 - Check internet connection
-- Website structure may have changed
-- Try running with `headless=False` to debug
+- Verify Chrome browser is installed
+- Run individual scrapers for more details
 
-### Issue: "Slow execution"
-This is normal! The pipeline:
-- Adds 2-5 second delays between requests (responsible scraping)
-- Visits 500+ job pages (1-2 hours total)
-- Extracts detailed data from each page
+**Q: Selenium errors?**
+- ChromeDriver may need updating
+- Check if Chrome version matches Selenium version
 
-## Next Steps
+**Q: CSV not opening in Excel?**
+- Files are UTF-8 encoded
+- Excel may need to import as Text file
 
-1. Check output in `data/final/` folder
-2. View analysis in `analysis/analysis_results.json`
-3. Edit CSV files in Excel/Pandas
-4. Extend the project (see COMPLETE_GUIDE.md)
+## Statistics
 
-## Git Workflow
+- **Total Jobs:** 103
+- **Total Links:** 104
+- **Success Rate:** 98%
+- **Data Sources:** 2 active (Punjab, Greenhouse)
+- **Unique Companies:** 2
+- **Unique Locations:** 20
+- **Dataset Size:** 165 KB
 
-```powershell
-# View history
-git log --oneline --all --graph
+## For More Information
 
-# Create feature branch
-git checkout -b feature/my-feature
-
-# Push to GitHub
-git push -u origin feature/my-feature
-
-# Merge to main
-git checkout main
-git merge feature/my-feature
-git push origin main
-```
-
-## Performance
-
-| Step | Time |
-|------|------|
-| Link extraction | 5-15 min |
-| Job data extraction | 1-2 hours |
-| Data cleaning | <1 min |
-| Analysis | <2 min |
-| **Total** | **2-3 hours** |
-
-## Supported Python Versions
-- Python 3.9
-- Python 3.10
-- Python 3.11
-- Python 3.12
-
-## Support
-
-- See `README.md` for overview
-- See `COMPLETE_GUIDE.md` for detailed help
-- Check logs: `extraction.log`, `job_extraction.log`
-- Review code comments for details
-
-## License
-
-MIT License - See `LICENSE` file
-
----
-
-**Ready to scrape? Start with:** `python run_pipeline.py`
+See `PROJECT_DESCRIPTION.md` for:
+- Complete technical documentation
+- Architecture and design
+- Data extraction methods
+- Known limitations
+- Future enhancements
