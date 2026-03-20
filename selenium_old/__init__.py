@@ -7,15 +7,8 @@ This module provides tools for extracting job links from multiple websites:
 - Punjab government jobs portal
 """
 
-from .selenium_utils import SeleniumDriver
-from .utils import (
-    add_delay,
-    is_valid_url,
-    check_url_accessible,
-    normalize_url,
-    clean_text,
-    remove_duplicates
-)
+# Avoid circular imports - don't import at module level
+# These can be imported directly from selenium_utils and utils modules as needed
 
 __all__ = [
     'SeleniumDriver',
