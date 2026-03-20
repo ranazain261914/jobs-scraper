@@ -39,7 +39,6 @@ class AshbyScraper(BaseScraper):
     def extract_job_links(self) -> list:
         """
         Extract job links from Ashby
-        Tries API first, falls back to Selenium
         
         Returns:
             List of job link dictionaries
@@ -48,17 +47,103 @@ class AshbyScraper(BaseScraper):
         self.logger.info("ASHBY CAREERS - LINK EXTRACTION")
         self.logger.info("="*80)
         
-        # Try API approach first
-        job_links = self._extract_via_api()
-        if job_links:
-            self.logger.info(f"✓ Extracted {len(job_links)} jobs via API")
-            return job_links
+        job_links = []
         
-        # Fallback to Selenium
-        self.logger.warning("API approach failed, trying Selenium...")
-        job_links = self._extract_via_selenium()
-        if job_links:
-            self.logger.info(f"✓ Extracted {len(job_links)} jobs via Selenium")
+        try:
+            self.driver = self._setup_driver()
+            self.logger.info(f"Loading: {self.target_url}")
+            self.driver.get(self.target_url)
+            
+            # Wait for job elements to appear (may be loaded via API)
+            self.logger.info("Waiting for job listings to load...")
+            time.sleep(4)
+            
+            # Wait for job boards/listings element
+            try:
+                from selenium.webdriver.support import expected_conditions as EC
+                from selenium.webdriver.support.ui import WebDriverWait
+                
+                # Try to wait for job listing divs
+                wait = WebDriverWait(self.driver, 10)
+                wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "job-board")))
+                self.logger.info("  Job board element loaded")
+            except:
+                self.logger.warning("  Could not find job-board class, continuing anyway...")
+            
+            # Scroll to load more
+            self.logger.info("Scrolling to load all jobs...")
+            for i in range(3):
+                self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(1)
+            
+            # Parse the page
+            soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+            
+            # Try to find job postings
+            # Ashby often uses data attributes or specific structures
+            self.logger.info("Searching for job listings...")
+            
+            # Look for job posting links - try multiple selectors
+            all_links = soup.find_all('a', href=True)
+            self.logger.info(f"  Found {len(all_links)} total links")
+            
+            seen_urls = set()
+            
+            # Filter for job-related links
+            for link in all_links:
+                href = link.get('href', '').strip()
+                text = link.get_text(strip=True)
+                
+                # Skip if empty or fragment
+                if not href or href.startswith('#'):
+                    continue
+                
+                # Normalize URL
+                if href.startswith('/'):
+                    normalized = 'https://www.ashbyhq.com' + href
+                elif href.startswith('http'):
+                    normalized = href
+                else:
+                    continue
+                
+                # Check if this looks like a job URL
+                # Ashby might use URLs like /careers or /jobs or job IDs
+                url_lower = normalized.lower()
+                
+                # Common patterns for job board URLs
+                is_job = False
+                
+                # Direct job/position/opening paths
+                if any(p in url_lower for p in ['/jobs/', '/positions/', '/openings/', '/job-postings/']):
+                    is_job = True
+                
+                # If it has ashbyhq.com and a UUID or ID-like pattern
+                if 'ashbyhq.com' in url_lower and (
+                    any(c.isdigit() for c in href) or  # Has numbers
+                    len(href) > 40  # Long URL suggests parameters
+                ):
+                    # Additional check: has job-related text
+                    if any(kw in text for kw in ['Apply', 'Job', 'Position', 'View', 'Engineer', 'Designer', 'Manager', 'Developer']):
+                        is_job = True
+                
+                if is_job and normalized not in seen_urls and 'careers' not in normalized:
+                    seen_urls.add(normalized)
+                    job_links.append({
+                        'url': normalized,
+                        'source': 'ashby',
+                        'extracted_at': datetime.now().isoformat()
+                    })
+                    self.logger.debug(f"  Found: {text[:40]}... -> {normalized[:60]}...")
+            
+            self.logger.info(f"✓ Extracted {len(job_links)} job links")
+            
+        except Exception as e:
+            self.logger.error(f"Error extracting Ashby jobs: {e}")
+            import traceback
+            self.logger.debug(traceback.format_exc())
+        
+        finally:
+            self.cleanup()
         
         return job_links
     
