@@ -25,12 +25,13 @@ A professional, modular job scraping system using Selenium and BeautifulSoup to 
 │   ├── raw/                 # Extracted links (intermediate)
 │   │   ├── job_links_punjab.csv
 │   │   ├── job_links_greenhouse.csv
-│   │   └── job_links_ashby.csv
-│   └── final/               # Final consolidated datasets
-│       ├── all_jobs.csv                    # Master file (104 jobs)
+│   │   ├── job_links_ashby.csv
+│   │   └── all_job_links.csv
+│   └── final/               # Final consolidated datasets ✨ Tracked in Git
+│       ├── all_jobs.csv                    # Master file (252 jobs)
 │       ├── jobs_punjab.csv                 # Punjab jobs (53)
 │       ├── jobs_greenhouse.csv             # Greenhouse jobs (50)
-│       ├── jobs_ashby.csv                  # Ashby jobs (1)
+│       ├── jobs_ashby.csv                  # Ashby Kraken jobs (149)
 │       └── HIRING_INSIGHTS_REPORT.md       # Analysis report
 │
 ├── docs/                    # Documentation
@@ -82,22 +83,29 @@ cat data/final/all_jobs.csv
 cat data/final/HIRING_INSIGHTS_REPORT.md
 ```
 
-## � Data & Analysis
+## 📊 Data & Analysis
 
 ### Consolidated Dataset
-- **Total Jobs:** 104
-- **Sources:** Punjab (53), Greenhouse (50), Ashby (1)
-- **Success Rate:** 99%
+- **Total Jobs:** 252
+- **Sources:** Punjab (53), Greenhouse (50), Ashby Kraken (149)
+- **Success Rate:** 100%
 - **Location:** `data/final/all_jobs.csv`
+- **Status:** ✨ Tracked in Git for easy sharing
 
-### Key Insights
-- **Top Skills:** Testing (59), Java (53), Go (50)
-- **Entry-Level Positions:** 66 (63.5% of market)
-- **Top Employer:** Government of Punjab (51%)
-- **All Jobs:** 100% remote or not specified
+### Latest Run
+```
+Scraping Phase:     ✅ 3/3 scrapers successful
+Consolidation:      ✅ 252 unique jobs
+Analysis:           ✅ Report generated
+Execution Time:     755 seconds (12.6 min)
+```
 
 ### Analysis Features
-- Top 15 in-demand skills extraction
+- Top in-demand skills extraction
+- Job distribution by source and location
+- Entry-level position identification
+- Market trend analysis
+- Company hiring patterns
 - Geographic distribution analysis
 - Company hiring volume ranking
 - Entry-level position detection

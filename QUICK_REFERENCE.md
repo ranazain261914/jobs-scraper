@@ -33,15 +33,18 @@ BEFORE                          AFTER
 
 | Test | Result | Status |
 |------|--------|--------|
-| Consolidation (105 links) | ✅ SUCCESS | Tested |
-| Consolidation (104 jobs) | ✅ SUCCESS | Tested |
-| Analysis (10 metrics) | ✅ SUCCESS | Tested |
-| Report Generation | ✅ SUCCESS | Tested |
-| Full Pipeline Speed | **0.4 sec** | ⚡ Fast |
+| Scraping Phase | ✅ 3/3 successful | Latest |
+| Consolidation (253 links) | ✅ SUCCESS | Latest |
+| Consolidation (252 jobs) | ✅ SUCCESS | Latest |
+| Analysis (insights report) | ✅ SUCCESS | Latest |
+| Report Generation | ✅ MARKDOWN GENERATED | Latest |
+| Full Pipeline Speed | **755 seconds** | ✅ Complete |
+| **Kraken Integration** | **✨ NEW: 149 jobs** | **Active** |
 
 ```
-Command: python analysis/run_all.py --skip-scraping
+Command: python analysis/run_all.py
 Result:  ✅ ALL SYSTEMS OPERATIONAL
+Sources: Punjab (53) + Greenhouse (50) + Ashby Kraken (149) = 252 total
 ```
 
 ## 🎯 What Each Directory Does

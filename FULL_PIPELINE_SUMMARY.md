@@ -8,23 +8,25 @@ Your job scraping project has been fully reorganized AND the complete pipeline h
 
 ### Phase 1: Scraping ✅
 - **Method:** Selenium-based browser automation
-- **Status:** ✅ **WORKING** (tested: Punjab scraper completed successfully)
-- **Speed:** ~15 seconds per source (3-4 min total for all sources)
+- **Status:** ✅ **WORKING** (latest: all 3 scrapers successful)
+- **Speed:** ~4-5 minutes total for all sources
+- **Sources:** Punjab (53 jobs), Greenhouse (50 jobs), Ashby Kraken (149 jobs) ✨
 
 ### Phase 2: Consolidation ✅
 - **Tested:** ✅ **CONFIRMED WORKING**
-- **Result:** 104 unique jobs consolidated from 3 sources
+- **Result:** 252 unique jobs consolidated from 3 sources
 - **Speed:** Instant (<1 second)
 
 ### Phase 3: Analysis ✅
 - **Tested:** ✅ **CONFIRMED WORKING**
-- **Result:** HIRING_INSIGHTS_REPORT.md generated
+- **Result:** HIRING_INSIGHTS_REPORT.md generated with market insights
 - **Speed:** <1 second
 
 ### Overall Pipeline ✅
-- **Full execution (no scraping):** 0.4 seconds ⚡
-- **Full execution (with scraping):** ~10 minutes
+- **Full execution (with scraping):** 755 seconds (~12.6 minutes)
+- **Full execution (no scraping):** <1 second
 - **Status:** ✅ **PRODUCTION READY**
+- **Output Files:** All tracked in Git ✨
 
 ---
 
@@ -33,25 +35,25 @@ Your job scraping project has been fully reorganized AND the complete pipeline h
 ### Option 1: Use Existing Data (Fastest)
 ```bash
 python analysis/run_all.py --skip-scraping
-# Takes: 0.4 seconds
-# Output: 104 consolidated jobs + analysis report
+# Takes: <1 second
+# Output: 252 consolidated jobs + analysis report
 ```
 
 ### Option 2: Full Pipeline (With Scraping)
 ```bash
 python analysis/run_all.py
-# Takes: ~10 minutes
+# Takes: ~12-15 minutes
 # Scrapes 3 sources → Consolidates → Analyzes
-# Output: Fresh data + analysis report
+# Output: Fresh data (252 jobs) + analysis report
 ```
 
 ### Option 3: Run Individual Components
 
 **Scrape a single source:**
 ```bash
-python selenium/scraper_punjab.py      # ~2-3 min
-python selenium/scraper_greenhouse.py  # ~3-4 min
-python selenium/scraper_ashby.py       # ~2-3 min
+python selenium/scraper_punjab.py       # ~2-3 min
+python selenium/scraper_greenhouse.py   # ~3-4 min
+python selenium/scraper_ashby.py        # ~3-4 min
 ```
 
 **Consolidate only:**
