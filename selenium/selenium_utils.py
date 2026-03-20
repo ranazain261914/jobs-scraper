@@ -53,14 +53,21 @@ class SeleniumDriver:
             if self.browser == 'chrome':
                 options = webdriver.ChromeOptions()
                 if self.headless:
-                    options.add_argument('--headless')
+                    options.add_argument('--headless=new')
                 options.add_argument('--no-sandbox')
                 options.add_argument('--disable-dev-shm-usage')
                 options.add_argument('--disable-blink-features=AutomationControlled')
                 options.add_argument('user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36')
                 
-                service = ChromeService(ChromeDriverManager().install())
-                self.driver = webdriver.Chrome(service=service, options=options)
+                try:
+                    # Try to get ChromeDriver with webdriver-manager
+                    driver_path = ChromeDriverManager().install()
+                    service = ChromeService(driver_path)
+                    self.driver = webdriver.Chrome(service=service, options=options)
+                except Exception as e:
+                    logger.warning(f"WebDriver manager failed: {e}. Trying direct Chrome connection...")
+                    # Fallback: Try to connect directly without service
+                    self.driver = webdriver.Chrome(options=options)
                 
             elif self.browser == 'firefox':
                 options = webdriver.FirefoxOptions()
@@ -68,8 +75,15 @@ class SeleniumDriver:
                     options.add_argument('--headless')
                 options.add_argument('--no-sandbox')
                 
-                service = FirefoxService(GeckoDriverManager().install())
-                self.driver = webdriver.Firefox(service=service, options=options)
+                try:
+                    # Try to get GeckoDriver with webdriver-manager
+                    driver_path = GeckoDriverManager().install()
+                    service = FirefoxService(driver_path)
+                    self.driver = webdriver.Firefox(service=service, options=options)
+                except Exception as e:
+                    logger.warning(f"WebDriver manager failed: {e}. Trying direct Firefox connection...")
+                    # Fallback: Try to connect directly without service
+                    self.driver = webdriver.Firefox(options=options)
             else:
                 raise ValueError(f"Unsupported browser: {self.browser}")
             
