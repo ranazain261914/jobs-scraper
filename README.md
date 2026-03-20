@@ -1,120 +1,108 @@
-# Job Scraping & Analysis Pipeline
+# Job Scraping & Analysis Pipeline# Job Scraping & Analysis Pipeline# Job Scraping & Analysis Pipeline
 
-A professional, modular job scraping system using Selenium and BeautifulSoup to collect and analyze job listings from multiple sources.
 
-## 📁 Project Structure
+
+A modular job scraping system using Selenium and BeautifulSoup to collect and analyze job listings from multiple sources.
+
+
+
+## Project StructureA modular job scraping system using Selenium and BeautifulSoup to collect and analyze job listings from multiple sources.A modular job scraping system using Selenium and BeautifulSoup to collect and analyze job listings from multiple sources.
+
+
 
 ```
+
 .
-├── selenium/                 # Browser automation scripts and utilities
-│   ├── base_scraper.py      # Abstract base class for all scrapers
-│   ├── scraper_punjab.py    # Punjab government jobs scraper
-│   ├── scraper_greenhouse.py # Greenhouse/Remote.com scraper
-│   ├── scraper_ashby.py     # Ashby careers scraper
-│   ├── consolidator.py      # Merges and deduplicates job data
-│   ├── verifier.py          # Validates extracted data
-│   ├── config.py            # Configuration and settings
-│   └── __init__.py
+
+├── selenium/              # Browser automation scrapers## Project Structure## Project Structure
+
+│   ├── base_scraper.py
+
+│   ├── scraper_punjab.py
+
+│   ├── scraper_greenhouse.py
+
+│   ├── scraper_ashby.py``````
+
+│   ├── consolidator.py
+
+│   ├── verifier.py..
+
+│   ├── config.py
+
+│   └── __init__.py├── selenium/              # Browser automation scrapers├── selenium/              # Browser automation scrapers
+
 │
-├── analysis/                 # Analysis and reporting scripts
-│   ├── analyze_jobs.py      # Job market insights extraction
-│   ├── run_all.py           # Master orchestration script
+
+├── analysis/              # Analysis and orchestration│   ├── base_scraper.py│   ├── base_scraper.py
+
+│   ├── analyze_jobs.py
+
+│   ├── run_all.py│   ├── scraper_punjab.py│   ├── scraper_punjab.py
+
 │   └── __init__.py
-│
+
+││   ├── scraper_greenhouse.py│   ├── scraper_greenhouse.py
+
 ├── data/
-│   ├── raw/                 # Extracted links (intermediate)
-│   │   ├── job_links_punjab.csv
-│   │   ├── job_links_greenhouse.csv
-│   │   ├── job_links_ashby.csv
-│   │   └── all_job_links.csv
-│   └── final/               # Final consolidated datasets ✨ Tracked in Git
-│       ├── all_jobs.csv                    # Master file (252 jobs)
-│       ├── jobs_punjab.csv                 # Punjab jobs (53)
-│       ├── jobs_greenhouse.csv             # Greenhouse jobs (50)
-│       ├── jobs_ashby.csv                  # Ashby Kraken jobs (149)
-│       └── HIRING_INSIGHTS_REPORT.md       # Analysis report
-│
-├── docs/                    # Documentation
-│   ├── PROJECT_OVERVIEW.md  # Project overview and setup
-│   ├── IMPLEMENTATION_GUIDE.md
-│   ├── REFACTORING_SUMMARY.md
-│   ├── RUNNING_GUIDE.md
-│   ├── QUICKSTART.md
-│   └── PROJECT_DESCRIPTION.md
-│
-├── logs/                    # Execution logs
-├── .gitignore              # Git ignore patterns
-├── requirements.txt        # Python dependencies
-└── README.md              # This file
-```
 
-## 🚀 Quick Start
+│   ├── raw/               # Intermediate data│   ├── scraper_ashby.py│   ├── scraper_ashby.py
 
-### 1. Setup
+│   └── final/             # Final results
 
-```bash
-# Install dependencies
-pip install -r requirements.txt
+││   ├── consolidator.py│   ├── consolidator.py
 
-# Review configuration
-cat selenium/config.py
-```
+├── requirements.txt
 
-### 2. Run Complete Pipeline
+├── README.md│   ├── verifier.py│   ├── verifier.py
 
-```bash
-# Full pipeline: scrape + consolidate + analyze (8 minutes)
-python analysis/run_all.py
+└── QUICKSTART.md
 
-# Use existing data (skip scraping, 0.5 seconds)
-python analysis/run_all.py --skip-scraping
+```│   ├── config.py│   ├── config.py
 
-# Skip analysis phase
-python analysis/run_all.py --skip-analysis
-```
 
-### 3. View Results
 
-```bash
-# Master job file (104 jobs)
-cat data/final/all_jobs.csv
+## Quick Start│   └── __init__.py│   └── __init__.py
 
-# Analysis report with insights
-cat data/final/HIRING_INSIGHTS_REPORT.md
-```
 
-## 📊 Data & Analysis
 
-### Consolidated Dataset
-- **Total Jobs:** 252
-- **Sources:** Punjab (53), Greenhouse (50), Ashby Kraken (149)
-- **Success Rate:** 100%
-- **Location:** `data/final/all_jobs.csv`
-- **Status:** ✨ Tracked in Git for easy sharing
+See [QUICKSTART.md](QUICKSTART.md) for first-time setup and usage instructions.││
 
-### Latest Run
-```
-Scraping Phase:     ✅ 3/3 scrapers successful
-Consolidation:      ✅ 252 unique jobs
-Analysis:           ✅ Report generated
-Execution Time:     755 seconds (12.6 min)
-```
 
-### Analysis Features
-- Top in-demand skills extraction
-- Job distribution by source and location
-- Entry-level position identification
-- Market trend analysis
-- Company hiring patterns
-- Geographic distribution analysis
-- Company hiring volume ranking
-- Entry-level position detection
-- Job title categorization (8 families)
-- Markdown report generation
+├── analysis/              # Analysis and orchestration├── analysis/              # Analysis and orchestration
 
-## 🔧 Architecture
+│   ├── analyze_jobs.py│   ├── analyze_jobs.py
 
-### Core Components
+│   ├── run_all.py│   ├── run_all.py
+
+│   └── __init__.py│   └── __init__.py
+
+││
+
+├── data/├── data/
+
+│   ├── raw/               # Intermediate data│   ├── raw/               # Intermediate data
+
+│   └── final/             # Final results│   └── final/             # Final results
+
+││
+
+├── requirements.txt├── requirements.txt
+
+├── README.md├── README.md
+
+└── QUICKSTART.md└── QUICKSTART.md
+
+``````
+
+
+
+## Quick Start## Quick Start
+
+
+
+See [QUICKSTART.md](QUICKSTART.md) for first-time setup and usage instructions.See [QUICKSTART.md](QUICKSTART.md) for first-time setup and usage instructions.
+
 
 **Selenium Module** (`selenium/`)
 - `BaseScraper`: Abstract class with common functionality
