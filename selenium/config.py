@@ -25,8 +25,8 @@ WEBSITES = {
         'driver_wait_time': 10
     },
     'ashby': {
-        'url': 'https://www.ashbyhq.com/careers',
-        'name': 'Ashby',
+        'url': 'https://jobs.ashbyhq.com/kraken.com',
+        'name': 'Ashby Kraken Jobs',
         'driver_wait_time': 10
     },
     'punjab': {
