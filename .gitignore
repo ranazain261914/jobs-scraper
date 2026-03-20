@@ -37,17 +37,21 @@ env/
 *~
 .DS_Store
 
-# Selenium
-chromedriver
-geckodriver
-webdriver.log
+# Selenium & WebDriver
+selenium/chromedriver*
+selenium/geckodriver*
+selenium/*.log
 
-# Data files (sensitive)
-*.csv
-*.json
-!sample_data.json
+# Cache and temporary files
+.cache/
+tmp/
+temp/
+
+# Data files (raw extracted links, intermediate files)
+data/raw/*.csv
 
 # Logs
+logs/
 *.log
 logs/
 
