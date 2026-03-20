@@ -25,7 +25,8 @@ class JobPipelineManager:
     
     def __init__(self):
         self.start_time = datetime.now()
-        self.base_dir = Path(__file__).parent
+        # Base dir is the project root (parent of analysis/)
+        self.base_dir = Path(__file__).parent.parent
         self.results = {
             'scraping': {},
             'consolidation': {},
@@ -127,6 +128,9 @@ class JobPipelineManager:
             from pathlib import Path
             
             jobs_file = self.base_dir / 'data' / 'final' / 'all_jobs.csv'
+            print(f"Looking for jobs file: {jobs_file}")
+            print(f"File exists: {jobs_file.exists()}")
+            
             if jobs_file.exists():
                 analyzer = JobAnalyzer(jobs_file)
                 output = analyzer.generate_report()
@@ -134,10 +138,14 @@ class JobPipelineManager:
                 print(f"✓ Analysis complete - Report generated at {output}")
                 self.results['analysis']['analyzer'] = True
                 return
+            else:
+                print(f"⚠️  Jobs file not found: {jobs_file}")
+                self.results['analysis']['analyzer'] = False
         except Exception as e:
             print(f"❌ Analysis failed: {e}")
-        
-        self.results['analysis']['analyzer'] = False
+            import traceback
+            traceback.print_exc()
+            self.results['analysis']['analyzer'] = False
     
     def print_summary(self):
         """Print final execution summary"""
